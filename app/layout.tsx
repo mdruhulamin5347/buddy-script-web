@@ -4,6 +4,7 @@ import "./styles/bootstrap.min.css";
 import "./styles/common.css";
 import "./styles/main.css";
 import "./styles/responsive.css";
+import { Providers } from "./providers";
 
 
 export const metadata: Metadata = {
@@ -18,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

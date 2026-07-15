@@ -1,6 +1,29 @@
+"use client";
+import { useForm } from "react-hook-form";
+import { useLogin } from "@/hooks/auth";
+import { TLogin, ZLogin } from "@/validators/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 
 export default function Login() {
+    const { mutate, isPending } = useLogin();
+    const {
+        register,
+        handleSubmit,
+        formState:{
+            errors
+        }
+    } = useForm<TLogin>({
+        resolver:zodResolver(ZLogin),
+        defaultValues:{
+            email:"",
+            password:""
+        }
+    });
+    const onSubmit = (data:TLogin)=>{
+        mutate(data);
+    };
+
     return (
         <>  
             <section className="_social_login_wrapper _layout_main_wrapper">
@@ -38,18 +61,22 @@ export default function Login() {
                                     </button>
                                     <div className="_social_login_content_bottom_txt _mar_b40"> <span>Or</span>
                                     </div>
-                                    <form className="_social_login_form">
+                                    <form className="_social_login_form" onSubmit={handleSubmit(onSubmit)}>
                                         <div className="row">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                                 <div className="_social_login_form_input _mar_b14">
                                                     <label className="_social_login_label _mar_b8">Email</label>
-                                                    <input type="email" className="form-control _social_login_input"/>
+                                                    <input type="email" className="form-control _social_login_input"
+                                                        {...register("email")}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                                 <div className="_social_login_form_input _mar_b14">
                                                     <label className="_social_login_label _mar_b8">Password</label>
-                                                    <input type="password" className="form-control _social_login_input"/>
+                                                    <input type="password" className="form-control _social_login_input"
+                                                        {...register("password")}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -69,7 +96,7 @@ export default function Login() {
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-xl-12 col-sm-12">
                                                 <div className="_social_login_form_btn _mar_t40 _mar_b60">
-                                                    <button type="button" className="_social_login_form_btn_link _btn1">Login now</button>
+                                                    <button type="submit" className="_social_login_form_btn_link _btn1">Login now</button>
                                                 </div>
                                             </div>
                                         </div>

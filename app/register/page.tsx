@@ -1,5 +1,34 @@
+"use client";
+import { useRegister } from "@/hooks/auth";
+import { TRegister, ZRegister } from "@/validators/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export default function Register() {
+
+    const {mutate, isPending}=useRegister();
+    const {
+    register,
+    handleSubmit,
+    formState:{
+    errors
+    }
+    }=useForm<TRegister>({
+    resolver:zodResolver(ZRegister),
+    defaultValues:{
+    email:"",
+    password:"",
+    retryPassword:""
+    }
+    });
+
+
+    const onSubmit=(data:TRegister)=>{
+
+    mutate(data);
+
+    };
+
     return (
         <>
             <section className="_social_registration_wrapper _layout_main_wrapper">
@@ -40,24 +69,46 @@ export default function Register() {
                                     </button>
                                     <div className="_social_registration_content_bottom_txt _mar_b40"> <span>Or</span>
                                     </div>
-                                    <form className="_social_registration_form">
+                                    <form className="_social_registration_form"  onSubmit={handleSubmit(onSubmit)}>
                                         <div className="row">
+                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <div className="_social_registration_form_input _mar_b14">
+                                                    <label className="_social_registration_label _mar_b8">First Name</label>
+                                                    <input type="text" className="form-control _social_registration_input"
+                                                    {...register("firstName")}
+                                                    />
+                                                </div>
+                                            </div>
+                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <div className="_social_registration_form_input _mar_b14">
+                                                    <label className="_social_registration_label _mar_b8">Last Name</label>
+                                                    <input type="text" className="form-control _social_registration_input"
+                                                    {...register("lastName")}
+                                                    />
+                                                </div>
+                                            </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                                 <div className="_social_registration_form_input _mar_b14">
                                                     <label className="_social_registration_label _mar_b8">Email</label>
-                                                    <input type="email" className="form-control _social_registration_input"/>
+                                                    <input type="email" className="form-control _social_registration_input"
+                                                        {...register("email")}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                                 <div className="_social_registration_form_input _mar_b14">
                                                     <label className="_social_registration_label _mar_b8">Password</label>
-                                                    <input type="password" className="form-control _social_registration_input"/>
+                                                    <input type="password" className="form-control _social_registration_input"
+                                                    {...register("password")}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                                 <div className="_social_registration_form_input _mar_b14">
                                                     <label className="_social_registration_label _mar_b8">Repeat Password</label>
-                                                    <input type="password" className="form-control _social_registration_input"/>
+                                                    <input type="password" className="form-control _social_registration_input"
+                                                        {...register("retryPassword")}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -72,7 +123,7 @@ export default function Register() {
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-xl-12 col-sm-12">
                                                 <div className="_social_registration_form_btn _mar_t40 _mar_b60">
-                                                    <button type="button" className="_social_registration_form_btn_link _btn1">Register now</button>
+                                                    <button type="submit" className="_social_registration_form_btn_link _btn1">Register now</button>
                                                 </div>
                                             </div>
                                         </div>
